@@ -11,11 +11,22 @@ typedef struct data{
 class shock
 {
     public:
-    shock();
+    shock()
+    {
+        R = 287;
+    };
 
     private:
-    void initialConditions();
+    void initialConditions(vector<double> initialState);
     void stepCalculate();
     void storeinFile();
+    void newtonRaphson();
+    double f(double x);
+    double f_(double x);
+
+    double p1, p2, p4;
+    double gamma, R;
+    double T1, T4;
+    double N, D1, D2, r, k, k_;
 
 };
