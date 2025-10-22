@@ -6,8 +6,17 @@ void shock::initialConditions(vector<double> initialState)
     T1 = initialState[1];
     p4 = initialState[2];
     T4 = initialState[3];
-    gamma = initialState[4];
 
+    newtonRaphson();
+    return;
+}
+
+void shock::newtonRaphson()
+{
+    double x_prev, x;
+    double N, D1, D2, r, k, k_;
+
+    x_prev = p4;
     N = (gamma-1)*sqrt(gamma*R*T1)/sqrt(gamma*R*T4);
     D1 = 4*gamma*gamma;
     D2 = 2*gamma*(gamma-1);
@@ -15,27 +24,24 @@ void shock::initialConditions(vector<double> initialState)
     k = 2*gamma/(gamma-1);
     k_ = pow(r, 1/k);
 
-    newtonRaphson();
-    return;
-}
+    // Lambda function f(x)
+    auto f = [&]()
+    {
+        return (x - N*(x_prev-1)/sqrt(D1+D2*(x_prev-1)));
+    };
 
-double shock::f(double x)
-{
-    return (x - N*(x-1)/sqrt(D1+D2*(x-1)));
-}
+    // Lambda function f'(x)
+    auto f_ = [&]()
+    {
+        return (1 - N*((D1+D2*(x_prev-1)) - D2*(x_prev-1)/2)/pow(D1+D2*(x_prev-1), 1.5));
+    };
 
-double shock::f_(double x)
-{
-    return (1 - N*((D1+D2*(x-1)) - D2*(x-1)/2)/pow(D1+D2*(x-1), 1.5));
-}
 
-void shock::newtonRaphson()
-{
-    double x_prev, x;
-
+    // Iterations
     do
     {
-        x = x_prev - (f(x_prev)/f_(x_prev));
+        x = x_prev - (f()/f_());
+        x_prev = x;
     } while (abs(x-x_prev) > 0.001);
     
     p2 = x;
@@ -43,12 +49,9 @@ void shock::newtonRaphson()
     return;
 }
 
-void shock::stepCalculate()
+void shock::shockReflection()
 {
-    return;
-}
+    
 
-void shock::storeinFile()
-{
     return;
 }
