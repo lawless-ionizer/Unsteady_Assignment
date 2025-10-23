@@ -16,35 +16,38 @@ void shock::newtonRaphson()
     double x_prev, x;
     double N, D1, D2, r, k, k_;
 
-    x_prev = p4;
+    x_prev = 0.5;
     N = (gamma-1)*sqrt(gamma*R*T1)/sqrt(gamma*R*T4);
     D1 = 4*gamma*gamma;
     D2 = 2*gamma*(gamma-1);
     r = p4/p1;
-    k = 2*gamma/(gamma-1);
+    k = -2*gamma/(gamma-1);
     k_ = pow(r, 1/k);
 
     // Lambda function f(x)
     auto f = [&]()
     {
-        return (x - N*(x_prev-1)/sqrt(D1+D2*(x_prev-1)));
+        return (pow(x_prev, 1/k) - N*(x_prev-1)*pow(x_prev,1/k)/sqrt(D1+D2*(x_prev-1)) - k_);
     };
 
     // Lambda function f'(x)
     auto f_ = [&]()
     {
-        return (1 - N*((D1+D2*(x_prev-1)) - D2*(x_prev-1)/2)/pow(D1+D2*(x_prev-1), 1.5));
+        return 0.5*D2*N*pow(x_prev,1/k)*(x_prev - 1)/pow((D1 + D2*(x_prev - 1)),1.5) - N*pow(x_prev,1/k)/pow((D1 + D2*(x_prev - 1)),0.5) - N*pow(x_prev,1/k)*(x_prev - 1)/(k*x_prev*pow((D1 + D2*(x_prev - 1)),0.5)) + pow(x_prev,1/k)/(k*x_prev);
     };
 
 
     // Iterations
-    do
+    x = x_prev - (f()/f_());
+    // cout << x << "\n";
+    while (abs(x-x_prev) > 0.0001)
     {
-        x = x_prev - (f()/f_());
         x_prev = x;
-    } while (abs(x-x_prev) > 0.001);
+        x = x_prev - (f()/f_());
+        // cout << x << "\n";
+    }
     
-    p2 = x;
+    p2 = x*p1;
 
     return;
 }
