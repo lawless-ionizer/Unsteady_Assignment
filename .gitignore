@@ -1,0 +1,2 @@
+# Ignore GCC precompiled headers
+*.gch
