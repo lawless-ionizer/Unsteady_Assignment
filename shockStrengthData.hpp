@@ -17,10 +17,10 @@ class shock
     double T1, T2, T4, T5;              // Temperatures
     double a1, a2, a4, a5;              // Sonic Velocities
     double W, Wr, up;                   // Velocities
+    double Ms, Mr;                      // Mach numbers
 
     private:
     void newtonRaphson();
+    void propertyCalculations();
     void shockReflection();
-
-
 };

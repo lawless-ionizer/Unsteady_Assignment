@@ -3,9 +3,9 @@ from sympy import Eq, symbols, solve, diff
 
 if __name__ == '__main__':
 
-    k_, x, N, D1, D2, k = symbols('k_ x N D1 D2 k')
+    r, x, N, D1, D2, k = symbols('r x N D1 D2 k')
 
-    equation = x**(1/k) - (N*(x-1)*x**(1/k))/(D1 + D2*(x-1))**0.5 - k_
+    equation = x*(1 - (N*(x - 1))/(D1 + D2*(x-1))**0.5)**(k) - r
 
     # try:
     #     solutions = solve(equation, x)
