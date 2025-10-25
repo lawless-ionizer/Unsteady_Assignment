@@ -11,6 +11,13 @@ void shock::initialConditions(vector<double> initialState)
     a4 = sqrt(gamma*R*T4);
 
     propertyCalculations();
+
+    compWave.p_behind = p2;
+    compWave.T_behind = T2;
+    compWave.rho_behind = rho2;
+    compWave.speed = W;
+    compWave.speed_behind = up;
+
     return;
 }
 
@@ -18,15 +25,13 @@ void shock::propertyCalculations()
 {
     newtonRaphson();
 
-    rho1 = R*T1/p1;
+    rho1 = p1/(R*T1);
     T2 = T1*p2*(((gamma+1)/(gamma-1) + p2/p1)/(1 + ((gamma+1)/(gamma-1))*p2/p1))/p1;
-    rho2 = R*T2/p2;
+    rho2 = p2/(R*T2);
     a2 = sqrt(gamma*R*T2);
     Ms = sqrt((gamma+1)*(p2/p1 - 1)/(2*gamma) + 1);
     W = a1*Ms;
     up = W*(1 - rho1/rho2);
-
-    shockReflection();
 }
 
 void shock::newtonRaphson()
@@ -68,7 +73,21 @@ void shock::newtonRaphson()
 
 void shock::shockReflection()
 {
-    
+    double a, Cp;
+    a = sqrt(1 + 2*(gamma-1)*(Ms*Ms - 1)*(gamma + 1/(Ms*Ms))/((gamma+1)*(gamma+1)))*Ms/(Ms*Ms - 1);
+    Cp = gamma*R/(gamma - 1);
+
+    Mr = (1 + sqrt(4*a*a + 1))/(2*a);
+    Wr = Mr*a2 - up;
+    T5 = T2 - (Wr*up + up*up/2)/Cp;
+    p5 = p2*pow(T5/T2, gamma/(gamma - 1));
+    rho5 = rho2*pow(p5/p2,1/gamma);
+
+    compWave.p_behind = p5;
+    compWave.T_behind = T5;
+    compWave.rho_behind = rho5;
+    compWave.speed = Wr;
+    compWave.speed_behind = 0;
 
     return;
 }
