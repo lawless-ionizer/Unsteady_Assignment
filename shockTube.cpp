@@ -28,16 +28,16 @@ int main()
     test.initialConditions(init);
 
     // cout << test.p2 << "\n";
-    // cout << test.W << " " << test.Wr << " " << test.up << "\n";
+    cout << test.a4 << " " << test.a2 << " " << test.up << "\n";
 
-    try
-    {
-        std::filesystem::create_directory(DIRNAME);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Warning: Could not create directory '" << DIRNAME << "'. It may already exist. Error: " << e.what() << std::endl;
-    }
+    // try
+    // {
+    //     std::filesystem::create_directory(DIRNAME);
+    // }
+    // catch (const std::exception& e)
+    // {
+    //     std::cerr << "Warning: Could not create directory '" << DIRNAME << "'. It may already exist. Error: " << e.what() << std::endl;
+    // }
 
     // while(t <= totalTime)
     // {
@@ -59,7 +59,7 @@ int main()
     //     }
 
     //     t += dt;
-    }
+    // }
 
     return 0;
 }
