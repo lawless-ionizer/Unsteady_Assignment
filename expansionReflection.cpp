@@ -1,23 +1,14 @@
-#include <iostream>
-#include <iomanip>
-#include <math.h>
-#include <vector>
+#include "expansionReflection.hpp"
 
-using namespace std;
-
-int main()
+void expansionWaves::reflection()
 {
-    double u3, u4, a3, a4, u, a;
-    u4 = 0.0;
-    u3 = 281.826;
-    a4 = 346.029;
-    a3 = 407.837;
-    double gamma = 1.4;
+    // u4 = 0.0;
+    // u3 = test.up;
+    // a4 = test.a4;
+    // a3 = test.a2;
+    
+    // cin >> n;
 
-    int n;
-    cin >> n;
-
-    vector<vector<double>> slopes;
     u = u4;
     a = a4;
     for(int i = 0; i < n; i++)
@@ -27,7 +18,6 @@ int main()
         a = a4 + (a3 - a4)/(n-1)*1.0*(i+1);
     }
 
-    vector<vector<vector<double>>> intersections;
     vector<vector<double>> characteristic(n, vector<double>(2,0));
     for(int i = n; i > 0; i--)
     {
@@ -46,17 +36,17 @@ int main()
         }
     }
 
-    for(int i = n - 1; i >= 0; i--)
-    {
-        for(int j = 0; j < n - i; j++)
-            cout << fixed << setprecision(2) << intersections[i][j][0] << " ";
+    // for(int i = n - 1; i >= 0; i--)
+    // {
+    //     for(int j = 0; j < n - i; j++)
+    //         cout << fixed << setprecision(2) << intersections[i][j][0] << " ";
         
-        cout << "\n";
-        for(int j = 0; j < n - i; j++)
-            cout << fixed << setprecision(2) << intersections[i][j][1] << " ";
+    //     cout << "\n";
+    //     for(int j = 0; j < n - i; j++)
+    //         cout << fixed << setprecision(2) << intersections[i][j][1] << " ";
 
-        cout << "\n\n";
-    }
+    //     cout << "\n\n";
+    // }
 
     return 0;
 }

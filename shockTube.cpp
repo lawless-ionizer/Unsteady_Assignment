@@ -6,12 +6,14 @@
 #include <iomanip>
 #include <filesystem>
 #include "shockStrengthData.hpp"
+#include "expansionReflection.hpp"
 using namespace std;
 
 int main()
 {
     vector<double> init = {66500, 298, 652500, 298};
     shock test;
+    expansionWaves exp;
     waveProperties shockWave;
     string DIRNAME = "data";
     double dt, t, totalTime;
@@ -29,6 +31,11 @@ int main()
 
     // cout << test.p2 << "\n";
     cout << test.a4 << " " << test.a2 << " " << test.up << "\n";
+
+    exp.a3 = test.a2;
+    exp.a4 = test.a4;
+    exp.u3 = test.up;
+    exp.u3 = 0.0;
 
     // try
     // {
