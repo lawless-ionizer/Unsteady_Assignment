@@ -16,4 +16,4 @@ class expansionWaves
 
     vector<vector<vector<double>>> intersections;
     void reflection();
-}
+};

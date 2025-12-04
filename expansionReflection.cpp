@@ -47,6 +47,4 @@ void expansionWaves::reflection()
 
     //     cout << "\n\n";
     // }
-
-    return 0;
 }
