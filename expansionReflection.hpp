@@ -15,5 +15,7 @@ class expansionWaves
     vector<vector<double>> slopes;
 
     vector<vector<vector<double>>> intersections;
+
+    
     void reflection();
 };

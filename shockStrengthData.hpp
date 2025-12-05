@@ -10,6 +10,7 @@ typedef struct waveProperties
     double rho_behind;
     double speed;
     double speed_behind;
+    double pos;
 };
 
 class shock
@@ -30,7 +31,6 @@ class shock
     double a1, a2, a4, a5;              // Sonic Velocities
     double W, Wr, up;                   // Velocities
     double Ms, Mr;                      // Mach numbers
-    waveProperties compWave;
 
     private:
     void newtonRaphson();

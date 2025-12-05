@@ -12,12 +12,6 @@ void shock::initialConditions(vector<double> initialState)
 
     propertyCalculations();
 
-    compWave.p_behind = p2;
-    compWave.T_behind = T2;
-    compWave.rho_behind = rho2;
-    compWave.speed = W;
-    compWave.speed_behind = up;
-
     return;
 }
 
@@ -82,12 +76,6 @@ void shock::shockReflection()
     T5 = T2 - (Wr*up + up*up/2)/Cp;
     p5 = p2*pow(T5/T2, gamma/(gamma - 1));
     rho5 = rho2*pow(p5/p2,1/gamma);
-
-    compWave.p_behind = p5;
-    compWave.T_behind = T5;
-    compWave.rho_behind = rho5;
-    compWave.speed = Wr;
-    compWave.speed_behind = 0;
 
     return;
 }

@@ -11,62 +11,73 @@ using namespace std;
 
 int main()
 {
-    vector<double> init = {66500, 298, 652500, 298};
-    shock test;
-    expansionWaves exp;
-    waveProperties shockWave;
+    int n;
+    double p1, p4, T1, T4, rho1, rho4, gamma;
+
+    cout << "Low Pressure Region:\nP1 = ";
+    cin >> p1;
+    cout << "T1 = ";
+    cin >> T1;
+    cout << "High Pressure Region:\nP4 = ";
+    cin >> p4;
+    cout << "T4 = ";
+    cin >> T4;
+
+    vector<double> init = {p1, T1, p4, T4};
+    shock compWave;
+    expansionWaves expFan;
+    
     string DIRNAME = "data";
     double dt, t, totalTime;
     double xl, xr, x_shock, x_diaphragm, dx;
 
-    xl = -10000;
+    xl = -30000;
     xr = 30000;
-    x_shock = x_diaphragm = 0;
-
+    
     totalTime = 8;
     dt = 0.05;
     t = 0;
 
-    test.initialConditions(init);
+    compWave.initialConditions(init);
 
-    // cout << test.p2 << "\n";
-    cout << test.a4 << " " << test.a2 << " " << test.up << "\n";
+    gamma = compWave.gamma;
+    rho1 = compWave.rho1;
+    rho4 = compWave.rho4;
+    // cout << compWave.p2 << "\n";
+    // cout << compWave.a4 << " " << compWave.a2 << " " << compWave.up << "\n";
 
-    exp.a3 = test.a2;
-    exp.a4 = test.a4;
-    exp.u3 = test.up;
-    exp.u3 = 0.0;
+    expFan.a3 = compWave.a2;
+    expFan.a4 = compWave.a4;
+    expFan.u3 = compWave.up;
+    expFan.u4 = 0.0;
+    expFan.n = n;
 
-    // try
-    // {
-    //     std::filesystem::create_directory(DIRNAME);
-    // }
-    // catch (const std::exception& e)
-    // {
-    //     std::cerr << "Warning: Could not create directory '" << DIRNAME << "'. It may already exist. Error: " << e.what() << std::endl;
-    // }
+    expFan.reflection();
 
-    // while(t <= totalTime)
-    // {
-    //     x_shock = test.compWave.speed*t;
+    vector<waveProperties> waves(n+2);
 
-    //     if(x_shock > xr)
-    //     {
-    //         test.shockReflection();
-    //         x_shock -= 2*xr;
-    //     }
+    waves[0].p_behind = p4;
+    waves[0].rho_behind = rho4;
+    waves[0].speed = 0.0;
+    waves[0].T_behind = T4;
+    waves[0].pos = 0.0;
 
-    //     if(test.compWave.speed > 0)
-    //     {
+    for(int i = 1; i <= n; i++)
+    {
+        waves[i].p_behind = p4*pow(1 - (gamma-1)*expFan.slopes[i][0]/(2*expFan.slopes[0][1]), 2*gamma/(gamma-1));
+        waves[i].rho_behind = rho4*pow(1 - (gamma-1)*expFan.slopes[i][0]/(2*expFan.slopes[0][1]), 2/(gamma-1));
+        waves[i].speed = expFan.slopes[i][0] - expFan.slopes[i][1];
+        waves[i].T_behind = T4*pow(1 - (gamma-1)*expFan.slopes[i][0]/(2*expFan.slopes[0][1]), 2);
+        waves[i].pos = 0.0;
+    }
 
-    //     }
-    //     else
-    //     {
+    waves[n+1].p_behind = p1;
+    waves[n+1].rho_behind = compWave.rho1;
+    waves[n+1].speed = compWave.W;
+    waves[n+1].T_behind = T1;
+    waves[n+1].pos = 0.0;
 
-    //     }
-
-    //     t += dt;
-    // }
+    
 
     return 0;
 }
